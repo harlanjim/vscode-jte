@@ -1,0 +1,52 @@
+{
+    "name": "JTE",
+    "scopeName": "text.html.jte",
+    "patterns": [
+      {
+        "include": "#jte-directives"
+      },
+      {
+        "include": "text.html.basic"
+      }
+    ],
+    "repository": {
+      "jte-directives": {
+        "patterns": [
+          {
+            "name": "keyword.control.jte",
+            "match": "@(import|param|if|else|for|export|template|raw)\\b"
+          },
+          {
+            "name": "meta.tag.template.jte",
+            "begin": "@template\\(",
+            "end": "\\)",
+            "patterns": [
+              {
+                "include": "source.java"
+              }
+            ]
+          },
+          {
+            "name": "variable.other.jte",
+            "begin": "\\$\\{",
+            "end": "\\}",
+            "patterns": [
+              {
+                "include": "source.java"
+              }
+            ]
+          },
+          {
+            "name": "meta.block.jte",
+            "begin": "@[a-zA-Z]+\\(",
+            "end": "\\)",
+            "patterns": [
+              {
+                "include": "source.java"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
