@@ -14,7 +14,7 @@
         "patterns": [
           {
             "name": "keyword.control.jte",
-            "match": "@(import|param|if|else|for|export|template|raw)\\b"
+            "match": "@(import|param|if|else|for|template|raw|endif|endfor|else)\\b"
           },
           {
             "name": "meta.tag.template.jte",

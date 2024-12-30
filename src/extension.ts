@@ -27,7 +27,12 @@ class JteCompletionProvider implements vscode.CompletionItemProvider {
             this.createCompletionItem('import', 'Import Java classes or JTE templates'),
             this.createCompletionItem('param', 'Define template parameters'),
             this.createCompletionItem('if', 'Conditional statement'),
-            this.createCompletionItem('for', 'Loop statement')
+            this.createCompletionItem('else', 'Else statement for conditional'),
+            this.createCompletionItem('endif', 'End if statement'),
+            this.createCompletionItem('for', 'Loop statement'),
+            this.createCompletionItem('endfor', 'End for loop'),
+            this.createCompletionItem('template', 'Define a template'),
+            this.createCompletionItem('raw', 'Raw text block')
         ];
     }
 
