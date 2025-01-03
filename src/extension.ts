@@ -6,7 +6,7 @@ import * as xml2js from 'xml2js';
 export class ClasspathResolver {
     private mavenDependencies: Set<string> = new Set();
     private jdkClasses: Set<string> = new Set();
-    
+
     async initialize(projectRoot: string) {
         await this.parseMavenDependencies(projectRoot);
         await this.loadCommonJdkClasses();
@@ -18,7 +18,7 @@ export class ClasspathResolver {
             const pomContent = await fs.promises.readFile(pomPath, 'utf-8');
             const parser = new xml2js.Parser();
             const pom = await parser.parseStringPromise(pomContent);
-            
+
             // Parse dependencies from pom.xml
             const dependencies = pom.project.dependencies?.[0]?.dependency || [];
             for (const dep of dependencies) {
@@ -58,7 +58,7 @@ export function activate(context: vscode.ExtensionContext) {
         '@' // Trigger character
     );
 
-   context.subscriptions.push(provider);
+    context.subscriptions.push(provider);
 }
 
 class JteCompletionProvider implements vscode.CompletionItemProvider {
@@ -67,9 +67,9 @@ class JteCompletionProvider implements vscode.CompletionItemProvider {
         position: vscode.Position
     ): Promise<vscode.CompletionItem[]> {
         const linePrefix = document.lineAt(position).text.substring(0, position.character);
-        
-        if (linePrefix.endsWith('@import ')) {
-            const classes = await this.resolveClasses();
+        const trimmedLinePrefix = linePrefix.trimStart();
+        if (trimmedLinePrefix.startsWith('@import ')) {
+            const classes = await this.resolveClasses(document);
             return classes.map(c => this.createCompletionItem(c, 'Import Java class'));
         }
 
@@ -98,12 +98,10 @@ class JteCompletionProvider implements vscode.CompletionItemProvider {
         return item;
     }
 
-    private async resolveClasses(): Promise<string[]> {
+    private async resolveClasses(document: vscode.TextDocument): Promise<string[]> {
         // Get project root from settings, fallback to finding src directory
-        const configRoot = vscode.workspace.getConfiguration('jte').get<string>('projectRoot');
-        //const projectRoot = configRoot || filePath.substring(0, filePath.indexOf('src'));
         const classes: string[] = [];
-        
+
         // Add common JDK classes
         classes.push(
             'java.util.List',
@@ -111,9 +109,14 @@ class JteCompletionProvider implements vscode.CompletionItemProvider {
             'java.io.IOException',
             'jakarta.servlet.http.HttpServletResponse'
         );
+        const projectRoot = vscode.workspace.getWorkspaceFolder(document.uri)?.uri.fsPath;
+        if (!projectRoot) {
+            throw new Error('No workspace folder found');
+        }
+
         // Add project classes
-       const projectClasses = await this.findJavaFiles(configRoot ?? '');
-       classes.push(...projectClasses);
+        const projectClasses = await this.findJavaFiles(projectRoot);
+        classes.push(...projectClasses);
 
         return classes;
     }
@@ -126,7 +129,7 @@ class JteCompletionProvider implements vscode.CompletionItemProvider {
         const processDirectory = async (dirPath: string) => {
             try {
                 const entries = await fs.promises.readdir(dirPath, { withFileTypes: true });
-                
+
                 for (const entry of entries) {
                     const fullPath = path.join(dirPath, entry.name);
                     if (entry.isDirectory()) {
