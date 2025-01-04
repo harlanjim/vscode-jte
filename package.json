@@ -9,25 +9,41 @@
   "categories": [
     "Programming Languages"
   ],
-  "activationEvents": [
-    "onLanguage:jte"
-  ],
   "contributes": {
-    "languages": [{
-      "id": "jte",
-      "aliases": ["Java Template Engine", "jte"],
-      "extensions": [".jte"],
-      "configuration": "./language-configuration.json"
-    }],
-    "grammars": [{
-      "language": "jte",
-      "scopeName": "text.html.jte",
-      "path": "./jte.tmLanguage.json",
-      "embeddedLanguages": {
-        "text.html": "html",
-        "source.java": "java"
+    "languages": [
+      {
+        "id": "jte",
+        "aliases": [
+          "Java Template Engine",
+          "jte"
+        ],
+        "extensions": [
+          ".jte"
+        ],
+        "configuration": "./language-configuration.json"
       }
-    }]
+    ],
+    "grammars": [
+      {
+        "language": "jte",
+        "scopeName": "text.html.jte",
+        "path": "./jte.tmLanguage.json",
+        "embeddedLanguages": {
+          "text.html": "html",
+          "source.java": "java"
+        }
+      }
+    ],
+    "configuration": {
+      "title": "JTE Support",
+      "properties": {
+        "jte.projectRoot": {
+          "type": "string",
+          "default": "",
+          "description": "Absolute path to the Java project root directory"
+        }
+      }
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run compile",
@@ -38,15 +54,17 @@
     "test": "vscode-test"
   },
   "devDependencies": {
-    "@types/vscode": "^1.96.0",
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
+    "@types/vscode": "^1.96.0",
+    "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
+    "@vscode/test-cli": "^0.0.10",
+    "@vscode/test-electron": "^2.4.1",
     "eslint": "^9.16.0",
     "typescript": "^5.7.2",
-    "@vscode/test-cli": "^0.0.10",
-    "@vscode/test-electron": "^2.4.1"
+    "xml2js": "^0.6.2"
   },
   "main": "./out/extension.js"
 }
