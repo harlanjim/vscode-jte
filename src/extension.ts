@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { JteAtCompletionProvider } from './JteAtCompletionProvider';
 import { JteSpaceCompletionProvider } from './JteSpaceCompletionProvider';
+import { JteBraceCompletionProvider } from './JteBraceCompletionProvider';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -18,4 +19,11 @@ export function activate(context: vscode.ExtensionContext) {
         ' ' // Trigger character
     );
     context.subscriptions.push(spaceProvider);
+
+    const braceProvider = vscode.languages.registerCompletionItemProvider(
+        { scheme: 'file', language: 'jte' },
+        new JteBraceCompletionProvider(),
+        '{' // Trigger character
+    );
+    context.subscriptions.push(braceProvider);
 }
