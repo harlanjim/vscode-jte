@@ -16,13 +16,19 @@ So far it has support for the following:
 There are no requirements or dependencies for this extension.
 
 ## Extension Settings
+Not extracting the java classes in the jdk. so the user can add their own classes to the list.
+- common.jdk.classes
 
-There are no settings for this extension.
+The list of jte directives is configurable in the settings.
+- @.completions
+
+The list of java types is configurable in the settings.
+- java.types
 
 ## Known Issues
 
 - No code completion for object methods.
-- No help for @if or @for
+- No help for @if, @for or @template
 
 ## Release Notes
 

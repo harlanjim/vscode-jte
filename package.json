@@ -35,12 +35,62 @@
       }
     ],
     "configuration": {
-      "title": "JTE Support",
+      "title": "JTE",
       "properties": {
-        "jte.projectRoot": {
-          "type": "string",
-          "default": "",
-          "description": "Absolute path to the Java project root directory"
+        "jte.@.completions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "import",
+            "param",
+            "if",
+            "else",
+            "endif",
+            "for",
+            "endfor",
+            "template",
+            "raw"
+          ],
+          "description": "Custom completions for JTE directives"
+        },
+        "jte.common.jdk.classes": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "java.util.Map",
+            "java.util.List",
+            "java.util.HashMap",
+            "java.util.ArrayList",
+            "java.util.Set",
+            "java.util.HashSet",
+            "java.time.LocalDate",
+            "java.time.LocalDateTime"
+          ],
+          "description": "Common JDK classes to include in import suggestions"
+        }, 
+        "jte.java.types": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            "String",
+            "Integer",
+            "Long",
+            "Double",
+            "Float",
+            "Boolean",
+            "Character",
+            "Byte",
+            "Short",
+            "BigInteger",
+            "BigDecimal"
+          ],
+          "description": "Java types to include in param suggestions"
         }
       }
     }
