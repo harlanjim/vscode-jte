@@ -1,5 +1,4 @@
 import * as vscode from 'vscode';
-import { ClassResolver } from './ClassResolver';
 
 export class JteAtCompletionProvider implements vscode.CompletionItemProvider {
 
@@ -18,17 +17,13 @@ export class JteAtCompletionProvider implements vscode.CompletionItemProvider {
             return [];
         }
 
-        return [
-            this.createCompletionItem('import', 'Import Java classes or JTE templates'),
-            this.createCompletionItem('param', 'Define template parameters'),
-            this.createCompletionItem('if', 'Conditional statement'),
-            this.createCompletionItem('else', 'Else statement for conditional'),
-            this.createCompletionItem('endif', 'End if statement'),
-            this.createCompletionItem('for', 'Loop statement'),
-            this.createCompletionItem('endfor', 'End for loop'),
-            this.createCompletionItem('template', 'Define a template'),
-            this.createCompletionItem('raw', 'Raw text block')
-        ];
+        // Get completions from settings
+        const config = vscode.workspace.getConfiguration('jte');
+        const completions = config.get<string[]>('@.completions') || [];
+
+        return completions.map(completion => 
+            this.createCompletionItem(completion, completion)
+        );
     }
 
     private createCompletionItem(name: string, description: string): vscode.CompletionItem {

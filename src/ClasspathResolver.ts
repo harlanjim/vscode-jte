@@ -1,5 +1,6 @@
 import * as fs from 'fs';
 import * as path from 'path';
+import * as vscode from 'vscode';
 import * as xml2js from 'xml2js';
 
 export class ClasspathResolver {
@@ -34,14 +35,8 @@ export class ClasspathResolver {
         }
     }
     private async loadCommonJdkClasses() {
-        // Common JDK classes based on your imports
-        const commonJdkClasses = [
-            'java.util.List',
-            'java.util.ArrayList',
-            'java.io.IOException',
-            'java.lang.reflect.InvocationTargetException',
-            'jakarta.servlet.http.HttpServletResponse'
-        ];
+        const config = vscode.workspace.getConfiguration('jte');
+        const commonJdkClasses = config.get<string[]>('common.jdk.classes') || [];
         commonJdkClasses.forEach(c => this.jdkClasses.add(c));
     }
 

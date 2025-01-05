@@ -13,6 +13,8 @@
       { "open": "[", "close": "]" },
       { "open": "(", "close": ")" },
       { "open": "'", "close": "'" },
-      { "open": "\"", "close": "\"" }
+      { "open": "\"", "close": "\"" },
+      { "open": "@if", "close": " (" },
+      { "open": "@for", "close": " (" }
     ]
   }

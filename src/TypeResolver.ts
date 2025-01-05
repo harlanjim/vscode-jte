@@ -1,9 +1,9 @@
 import * as fs from 'fs';
 import * as path from 'path';
 import * as vscode from 'vscode';
-export class ClassResolver {
+export class TypeResolver {
     private projectRoot: string;
-    private classes: string[] = [];
+    private types: string[] = [];
 
     constructor(projectRoot: string) {
         this.projectRoot = projectRoot;
@@ -13,25 +13,24 @@ export class ClassResolver {
         return this.projectRoot;
     }
 
-    async resolveClasses(): Promise<string[]> {
-        if (this.classes.length > 0) {
-            return this.classes;
+    async resolveTypes(): Promise<string[]> {
+        if (this.types.length > 0) {
+            return this.types;
         }
 
         // Add common JDK classes
         const config = vscode.workspace.getConfiguration('jte');
-        const commonJdkClasses = config.get<string[]>('common.jdk.classes') || [];
-        commonJdkClasses.forEach(c => this.classes.push(c));
+        const commonJdkClasses = config.get<string[]>('java.types') || [];
+        commonJdkClasses.forEach(c => this.types.push(c));
 
         // Add project classes
-        const projectClasses = await this.findJavaFiles(this.projectRoot);
-        this.classes.push(...projectClasses);
+        const projectTypes = await this.findJavaFiles(this.projectRoot);
+        this.types.push(...projectTypes);
 
-        return this.classes;
+        return this.types;
     }
 
     private async findJavaFiles(rootPath: string): Promise<string[]> {
-        // Focus on your main package structure
         const srcPath = path.join(rootPath, 'src', 'main', 'java');
         const files: string[] = [];
 
@@ -44,13 +43,9 @@ export class ClassResolver {
                     if (entry.isDirectory()) {
                         await processDirectory(fullPath);
                     } else if (entry.name.endsWith('.java')) {
-                        // Convert file path to package notation
-                        const packagePath = fullPath
-                            .replace(srcPath + path.sep, '')
-                            .replace(/\\/g, '.')
-                            .replace(/\//g, '.')
-                            .replace('.java', '');
-                        files.push(packagePath);
+                        // Extract just the class name from the file
+                        const className = entry.name.replace('.java', '');
+                        files.push(className);
                     }
                 }
             } catch (error) {
