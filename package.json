@@ -1,10 +1,10 @@
 {
-  "name": "jte-language-support",
-  "displayName": "JTE Language Support",
+  "name": "java-template-engine-support",
+  "displayName": "Java Template Engine Support",
   "description": "Language support for Java Template Engine (JTE)",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "engines": {
-    "vscode": "^1.60.0"
+    "vscode": "^1.90.0"
   },
   "categories": [
     "Programming Languages"
@@ -106,7 +106,7 @@
   "devDependencies": {
     "@types/mocha": "^10.0.10",
     "@types/node": "20.x",
-    "@types/vscode": "^1.96.0",
+    "@types/vscode": "^1.90.0",
     "@types/xml2js": "^0.4.14",
     "@typescript-eslint/eslint-plugin": "^8.17.0",
     "@typescript-eslint/parser": "^8.17.0",
@@ -116,5 +116,11 @@
     "typescript": "^5.7.2",
     "xml2js": "^0.6.2"
   },
-  "main": "./out/extension.js"
+  "main": "./out/extension.js",
+  "activationEvents": [
+    "onLanguage:jte",
+    "workspaceContains:**/*.jte"
+  ],
+  "publisher": "FahEnterprises",
+  "repository": "github:harlanjim/vscode-jte"
 }
