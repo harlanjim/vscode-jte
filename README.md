@@ -32,7 +32,10 @@ The list of java types is configurable in the settings.
 
 ## Release Notes
 
-### 0.0.1
+### 0.0.2
 
 Initial release of JTE code completion.
 
+### 0.0.3
+
+Add document formatting.
