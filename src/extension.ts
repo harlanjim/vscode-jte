@@ -1,7 +1,8 @@
 import * as vscode from 'vscode';
 import { JteAtCompletionProvider } from './JteAtCompletionProvider';
-import { JteSpaceCompletionProvider } from './JteSpaceCompletionProvider';
 import { JteBraceCompletionProvider } from './JteBraceCompletionProvider';
+import { JteSpaceCompletionProvider } from './JteSpaceCompletionProvider';
+import { JteDocumentFormatter } from './formatter';
 
 export function activate(context: vscode.ExtensionContext) {
 
@@ -26,4 +27,9 @@ export function activate(context: vscode.ExtensionContext) {
         '{' // Trigger character
     );
     context.subscriptions.push(braceProvider);
+
+    // Register the formatter
+    context.subscriptions.push(
+        vscode.languages.registerDocumentFormattingEditProvider('jte', new JteDocumentFormatter())
+    );
 }
